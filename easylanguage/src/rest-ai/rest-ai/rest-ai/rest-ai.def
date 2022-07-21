@@ -1,0 +1,5 @@
+LIBRARY "RESTAI"
+
+EXPORTS
+	slack_notify
+	mackerel_post_metric

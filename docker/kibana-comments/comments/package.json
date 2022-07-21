@@ -1,0 +1,44 @@
+{
+  "name": "comments",
+  "version": "0.0.0",
+  "description": "An application plugin to add and manage comments to your Kibana dashboards",
+  "main": "index.js",
+  "kibana": {
+    "version": "7.3.0",
+    "templateVersion": "7.3.0"
+  },
+  "scripts": {
+    "preinstall": "node ../../kibana/preinstall_check",
+    "kbn": "node ../../kibana/scripts/kbn",
+    "lint": "eslint **/*.js",
+    "start": "plugin-helpers start",
+    "test:server": "plugin-helpers test:server",
+    "test:browser": "plugin-helpers test:browser",
+    "build": "plugin-helpers build"
+  },
+  "devDependencies": {
+    "@elastic/eslint-config-kibana": "link:../../kibana/packages/eslint-config-kibana",
+    "@elastic/eslint-import-resolver-kibana": "^0.9.0",
+    "@kbn/plugin-helpers": "link:../../kibana/packages/kbn-plugin-helpers",
+    "babel-eslint": "^8.0.2",
+    "eslint": "^4.11.0",
+    "eslint-plugin-babel": "^4.1.1",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jest": "^21.3.2",
+    "eslint-plugin-mocha": "^4.9.0",
+    "eslint-plugin-prefer-object-spread": "^1.2.1",
+    "eslint-plugin-react": "^7.0.1",
+    "expect.js": "^0.3.1"
+  },
+  "dependencies": {
+    "@elastic/eui": "3.6.1",
+    "angular-datatables": "^0.5.7",
+    "axios": "^0.18.0",
+    "boom": "^5.2.0",
+    "joi": "^10.6.0",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
+    "superagent": "^3.5.2",
+    "wreck": "^12.2.2"
+  }
+}

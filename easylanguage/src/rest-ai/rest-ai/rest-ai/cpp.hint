@@ -1,0 +1,2 @@
+#define RESTAI_API __declspec(dllexport)
+#define RESTAI_API __declspec(dllimport)

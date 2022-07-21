@@ -1,0 +1,264 @@
+version: '3.4'
+
+x-es7-common: &es7-common
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.0
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+x-es7-option: &es7-option
+      # クラスタ名
+      cluster.name: 'docker-cluster'
+      # ノードあたりの割当メモリ
+      ES_JAVA_OPTS: '-Xms1G -Xmx1G'
+      # スワップ無効化
+      bootstrap.memory_lock: 'true'
+
+# Dataノード
+x-es7-node: &es7-node
+    <<: *es7-common
+    environment:
+      <<: *es7-option
+      node.master: "false"
+      node.data: "true"
+      node.ingest: "false"
+      discovery.seed_hosts: "elasticsearch"
+
+# Masterノード
+x-es7-master: &es7-master
+    <<: *es7-common
+    environment:
+      <<: *es7-option
+      node.master: "true"
+      node.data: "false"
+      node.ingest: "false"
+      cluster.initial_master_nodes: "elasticsearch"
+      node.name: "elasticsearch"
+    # ノード数に応じて変更する
+    depends_on: 
+      - "elasticsearch-data1"
+      - "elasticsearch-data2"
+
+# ノード数に応じて変更する
+volumes:
+  es7-master1:
+  es7-data1:
+  es7-data2:
+  csv-data:
+  rootfs:
+  crawler:
+  mackerel:
+
+services:
+  novnc:
+    image: tatsui/novnc:0.1
+    ports:
+      - 6080:6080
+    command: "--vnc 192.168.1.17:5901"
+  
+  ngrok:
+    build: ./docker/ngrok
+    network_mode: host
+    environment:
+      NGROK_AUTH: "${NGROK_AUTH}"
+      NGROK_PORT: 22
+      NGROK_PROTOCOL: "TCP"
+
+  jupyter:
+    image: tatsui/jupyter:0.1
+    ports: 
+      - 8888:8888
+    volumes:
+      - ./notebook:/home/jovyan
+      - /mnt/backup:/data
+    environment:
+      GRANT_UID: "1000"
+      GRANT_GID: "1000"
+      GRANT_SUDO: "yes"
+    command: 'start.sh jupyter lab --NotebookApp.token=""'
+
+  bootstrap:
+    #image: tatsui/gym:0.3
+    build: ./docker/gym
+    hostname: gym-v04
+    depends_on: 
+      - rabbitmq
+      - redisai
+      - kibana
+      - stock-dumper
+      - notifier
+      - mackerel
+      - mackerel-metrics
+      - crawler
+      - ngrok
+    entrypoint: /wait-for-it.sh redisai:6379 -- /work/deploy_production.sh
+    volumes:
+      - /mnt/backup:/data
+      - /mnt/backup/:/backup
+      - csv-data:/data/csv
+
+  gym:
+    #image: tatsui/gym:0.3
+    build: ./docker/gym
+    hostname: gym-v04
+    depends_on: 
+      - redisai
+    volumes:
+      - /mnt/backup:/data
+      - /mnt/backup/:/backup
+      - csv-data:/data/csv
+
+  redisai:
+    image: tatsui/redisai:0.1
+    ports:
+      - "6379:6379"
+    privileged: true
+    sysctls:
+      net.core.somaxconn: '511'
+
+  redisai1:
+    image: tatsui/redisai:0.1
+    ports:
+      - "6380:6379"
+    privileged: true
+    sysctls:
+      net.core.somaxconn: '511'
+
+  redisai2:
+    image: tatsui/redisai:0.1
+    ports:
+      - "6381:6379"
+    privileged: true
+    sysctls:
+      net.core.somaxconn: '511'
+
+  redisai3:
+    image: tatsui/redisai:0.1
+    ports:
+      - "6382:6379"
+    privileged: true
+    sysctls:
+      net.core.somaxconn: '511'
+
+  redisai4:
+    image: tatsui/redisai:0.1
+    ports:
+      - "6383:6379"
+    privileged: true
+    sysctls:
+      net.core.somaxconn: '511'
+
+  google-drive:
+    image: tatsui/google-drive:0.1
+    privileged: true
+    environment:
+        CLIENT_ID: ${CLIENT_ID}
+        CLIENT_SECRET: ${CLIENT_SECRET}
+        VERIFICATION_CODE: ${VERIFICATION_CODE}
+        DRIVE_PATH: "/mnt"
+    volumes:
+      - /mnt/backup:/data
+      - rootfs:/root
+
+  stock-dumper:
+    #image: tatsui/stock-dumper:0.2
+    build: ./docker/stock-dumper
+    environment:
+      BASE_DIR: "/data/csv"
+      VERSION: "1.1"
+      MACKEREL_API_KEY: "${MACKEREL_API_KEY}"
+    volumes:
+      - csv-data:/data/csv
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  kibana:
+    build: docker/kibana-comments
+    ports: [ '5601:5601']
+    depends_on: [ 'elasticsearch' ]
+    environment:
+      I18N_LOCALE: "ja-JP"
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+
+  elasticsearch:
+    ports:
+      - "9200:9200"
+    volumes: [ 'es7-master1:/usr/share/elasticsearch/data' ]
+    <<: *es7-master
+
+  # ノード数に応じて変更する
+  elasticsearch-data1:
+    volumes: [ 'es7-data1:/usr/share/elasticsearch/data' ]
+    <<: *es7-node
+
+  elasticsearch-data2:
+    volumes: [ 'es7-data2:/usr/share/elasticsearch/data' ]
+    <<: *es7-node
+
+  elastic-manager:
+    image: tatsui/elastic-manager:0.0.1
+    volumes:
+      - /mnt/backup/:/backup
+    command: ["tail", "-f", "/var/log/lastlog"]
+
+  mackerel:
+    image: mackerel/mackerel-agent
+    hostname: docker-mackerel-agent
+    volumes:
+      - "mackerel:/var/lib/mackerel-agent/"
+      - "./mackerel:/etc/mackerel-agent/conf.d:ro"
+    environment:
+      include: "/etc/mackerel-agent/conf.d/*.conf"
+      apikey: "${MACKEREL_API_KEY}"
+      enable_docker_plugin: 0 \
+      auto_retirement: 0
+      opts: "-v"
+
+  mackerel-metrics:
+    build: ./docker/mackerel-metrics
+    hostname: docker-mackerel-metrics
+    environment:
+      MACKEREL_API_KEY: "${MACKEREL_API_KEY}"
+      ENABLE_ESXI: "no"
+
+  notifier:
+    build: ./docker/notifier
+    environment:
+      MESSAGE_FROM: "${MESSAGE_FROM}"
+      WEBHOOK_URL: "${WEBHOOK_URL}"
+    volumes:
+      - "./creds:/creds"
+
+  hub:
+    image: selenium/hub:3.141
+    ports:
+      - '4444:4444'
+    depends_on:
+      - chrome
+
+  chrome:
+    image: selenium/node-chrome-debug:3.141
+    #image: selenium/node-chrome:3.141
+    environment:
+      - HUB_HOST=hub
+      - HUB_PORT=4444
+      - NODE_MAX_INSTANCES=30
+      - NODE_MAX_SESSION=30
+    volumes:
+      - /dev/shm:/dev/shm
+    ports:
+      - '5900:5900'
+  crawler:
+    build: docker/crawler
+    environment:
+      MACKEREL_API_KEY: "${MACKEREL_API_KEY}"
+    volumes:
+      - crawler:/data
+      - /mnt/backup:/backup
+    depends_on:
+      - hub

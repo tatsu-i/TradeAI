@@ -1,0 +1,5 @@
+LIBRARY "RABBITSTOCK"
+
+EXPORTS
+	publish_message
+	backtest_message

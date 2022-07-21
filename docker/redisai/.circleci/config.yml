@@ -1,0 +1,163 @@
+version: 2.1
+
+commands:
+  ci_steps:
+    parameters:
+      platform:
+        type: string
+    steps:
+      - checkout
+#      - restore_cache:
+#          keys:
+#          - v1-dependencies-{{ checksum "get_deps.sh" }}
+#          # fallback to using the latest cache if no exact match is found
+#          # - v1-dependencies-
+      - run:
+          name: Install dependencies
+          command: |
+            ./opt/readies/bin/getpy
+            ./opt/system-setup.py
+            # git clone git://github.com/antirez/redis.git --branch 5.0.5
+            # (cd redis && make malloc=libc -j $(nproc) && make install)
+            ./get_deps.sh cpu
+      - save_cache:
+          paths:
+            - deps
+          key: v1-dependencies-{{ checksum "get_deps.sh" }}
+      - run:
+          name: Set up workspace
+          command: |
+            mkdir -p ~/workspace
+            chown `whoami` ~/workspace
+      - run:
+          name: Build
+          command: make -C opt all SHOW=1
+      - run:
+          name: Test
+          command: |
+            mkdir -p ~/workspace/tests
+            make -C opt test SHOW=1
+            cp test/logs/* ~/workspace/tests
+      - run:
+          name: Package
+          command: make -C opt pack BRANCH="${CIRCLE_BRANCH//[^A-Za-z0-9._-]/_}" INTO=~/workspace/packages SHOW=1
+      - persist_to_workspace:
+          root: ~/workspace
+          paths:
+            - 'packages/release/*.zip'
+            - 'packages/release/*.tgz'
+            - 'packages/branch/*.zip'
+            - 'packages/branch/*.tgz'
+      - store_test_results:
+          path: ~/workspace/tests
+  deploy:
+    parameters:
+      from:
+        type: string
+    steps:
+      - run:
+          name: Deploy to S3
+          command: |
+            aws s3 cp <<parameters.from>>/ s3://redismodules/$PACKAGE_NAME/ --acl public-read --recursive --exclude "*" --include "*.zip" --include "*.tgz"
+
+jobs:
+  build:
+    docker:
+      - image: redisfab/rmbuilder:x64-buster
+    steps:
+      - ci_steps:
+          platform: debian 
+  build-macos:
+    macos:
+      xcode: 10.2.1
+    steps:
+      - ci_steps:
+          platform: macosx
+  build-multiarch-docker:
+    machine:
+      enabled: true
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - run:
+          name: Setup Docker client experimental features
+          command: |
+            sudo ./opt/readies/bin/getdocker --just-enable-exp
+            docker version
+      - run:
+          name: Build
+          command: |
+            sudo docker login -u redisfab -p $DOCKER_REDISFAB_PWD
+            make -C opt/build/docker build
+            sudo make -C opt/build/docker publish
+
+  deploy_package:
+    parameters:
+      package:
+        type: string
+    docker:
+      - image: redisfab/rmbuilder:x64-buster
+    steps:
+      - attach_workspace:
+          at: ~/workspace
+      - deploy:
+          from: ~/workspace/packages/<<parameters.package>>
+      - store_artifacts:
+          path: ~/workspace/packages/<<parameters.package>>
+
+  deploy_docs:
+    docker:
+      - image: redisfab/rmbuilder:x64-buster
+    steps:
+      - checkout
+      - run:
+          name: Build Docs
+          command: mkdocs build
+      - run:
+          name: Deploy Docs to S3
+          command: |
+            aws s3 cp site s3://oss.redislabs.com/$WEBSITE_FOLDER/ --acl public-read --recursive
+
+workflows:
+  version: 2
+  build_and_package:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+      - build-macos:
+          filters:
+            tags:
+              only: /.*/
+      - build-multiarch-docker:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: master
+      - deploy_package:
+          name: deploy_branch
+          package: branch
+          requires:
+            - build
+          filters:
+#             # uncomment to debug
+#            tags:
+#              only: /.*/
+            branches:
+              only: master
+      - deploy_package:
+          name: deploy_release
+          package: release
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: '/^v[0-9].*/'
+      - deploy_docs:
+          filters:
+            branches:
+              only: master

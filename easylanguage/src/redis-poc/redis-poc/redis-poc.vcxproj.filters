@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\hiredis">
+      <UniqueIdentifier>{43b2166e-cd37-40ab-8ee4-c318d875ccb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\hiredis">
+      <UniqueIdentifier>{38576a2f-a6d7-4d1e-90e9-f0b637237133}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="hiredis\async.c">
+      <Filter>ソース ファイル\hiredis</Filter>
+    </ClCompile>
+    <ClCompile Include="hiredis\dict.c">
+      <Filter>ソース ファイル\hiredis</Filter>
+    </ClCompile>
+    <ClCompile Include="hiredis\hiredis.c">
+      <Filter>ソース ファイル\hiredis</Filter>
+    </ClCompile>
+    <ClCompile Include="hiredis\net.c">
+      <Filter>ソース ファイル\hiredis</Filter>
+    </ClCompile>
+    <ClCompile Include="hiredis\read.c">
+      <Filter>ソース ファイル\hiredis</Filter>
+    </ClCompile>
+    <ClCompile Include="hiredis\sds.c">
+      <Filter>ソース ファイル\hiredis</Filter>
+    </ClCompile>
+    <ClCompile Include="hiredis\sockcompat.c">
+      <Filter>ソース ファイル\hiredis</Filter>
+    </ClCompile>
+    <ClCompile Include="hiredis\sslio.c">
+      <Filter>ソース ファイル\hiredis</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="redis-ai.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hiredis\async.h">
+      <Filter>ヘッダー ファイル\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="hiredis\dict.h">
+      <Filter>ヘッダー ファイル\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="hiredis\fmacros.h">
+      <Filter>ヘッダー ファイル\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="hiredis\hiredis.h">
+      <Filter>ヘッダー ファイル\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="hiredis\net.h">
+      <Filter>ヘッダー ファイル\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="hiredis\read.h">
+      <Filter>ヘッダー ファイル\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="hiredis\sds.h">
+      <Filter>ヘッダー ファイル\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="hiredis\sdsalloc.h">
+      <Filter>ヘッダー ファイル\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="hiredis\sockcompat.h">
+      <Filter>ヘッダー ファイル\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="hiredis\sslio.h">
+      <Filter>ヘッダー ファイル\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="hiredis\win32.h">
+      <Filter>ヘッダー ファイル\hiredis</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="redis-ai.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

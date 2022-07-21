@@ -1,0 +1,10 @@
+.git
+.gitlab-ci.yml
+.gitignore
+.gitmodules
+.gitlab
+ship-docker-image.sh
+init.sh
+README.md
+Dockerfile
+tests

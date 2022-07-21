@@ -1,0 +1,174 @@
+{
+  "version": "7.3.0",
+  "objects": [
+    {
+      "id": "03261ea0-101c-11ea-938f-959bf5749c2f",
+      "type": "dashboard",
+      "updated_at": "2019-11-26T07:19:36.189Z",
+      "version": "Wzc2LDJd",
+      "attributes": {
+        "title": "Emotion",
+        "hits": 0,
+        "description": "",
+        "panelsJSON": "[{\"embeddableConfig\":{},\"gridData\":{\"x\":0,\"y\":0,\"w\":12,\"h\":15,\"i\":\"1\"},\"panelIndex\":\"1\",\"version\":\"7.3.0\",\"panelRefName\":\"panel_0\"},{\"embeddableConfig\":{},\"gridData\":{\"x\":12,\"y\":0,\"w\":10,\"h\":15,\"i\":\"2\"},\"panelIndex\":\"2\",\"version\":\"7.3.0\",\"panelRefName\":\"panel_1\"},{\"embeddableConfig\":{},\"gridData\":{\"x\":0,\"y\":15,\"w\":48,\"h\":29,\"i\":\"3\"},\"panelIndex\":\"3\",\"version\":\"7.3.0\",\"panelRefName\":\"panel_2\"},{\"gridData\":{\"x\":22,\"y\":0,\"w\":26,\"h\":15,\"i\":\"4\"},\"version\":\"7.3.0\",\"panelIndex\":\"4\",\"embeddableConfig\":{},\"panelRefName\":\"panel_3\"}]",
+        "optionsJSON": "{\"hidePanelTitles\":false,\"useMargins\":true}",
+        "version": 1,
+        "timeRestore": false,
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"language\":\"kuery\",\"query\":\"\"},\"filter\":[]}"
+        }
+      },
+      "references": [
+        {
+          "name": "panel_0",
+          "type": "visualization",
+          "id": "b1853540-101b-11ea-938f-959bf5749c2f"
+        },
+        {
+          "name": "panel_1",
+          "type": "visualization",
+          "id": "f258aac0-101b-11ea-938f-959bf5749c2f"
+        },
+        {
+          "name": "panel_2",
+          "type": "search",
+          "id": "229d0a60-101b-11ea-938f-959bf5749c2f"
+        },
+        {
+          "name": "panel_3",
+          "type": "visualization",
+          "id": "f8535140-101c-11ea-938f-959bf5749c2f"
+        }
+      ],
+      "migrationVersion": {
+        "dashboard": "7.3.0"
+      }
+    },
+    {
+      "id": "b1853540-101b-11ea-938f-959bf5749c2f",
+      "type": "visualization",
+      "updated_at": "2019-11-26T07:09:31.668Z",
+      "version": "WzcxLDJd",
+      "attributes": {
+        "title": "EM Symbolname",
+        "visState": "{\"title\":\"EM Symbolname\",\"type\":\"table\",\"params\":{\"perPage\":10,\"showPartialRows\":false,\"showMetricsAtAllLevels\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"showTotal\":false,\"totalFunc\":\"sum\",\"dimensions\":{\"metrics\":[{\"accessor\":0,\"format\":{\"id\":\"number\"},\"params\":{},\"aggType\":\"count\"}],\"buckets\":[]}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"symbolname.keyword\",\"orderBy\":\"1\",\"order\":\"desc\",\"size\":1000,\"otherBucket\":false,\"otherBucketLabel\":\"その他\",\"missingBucket\":false,\"missingBucketLabel\":\"欠測値\"}}]}",
+        "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":null,\"direction\":null}}}}",
+        "description": "",
+        "version": 1,
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"lucene\"},\"filter\":[],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+        }
+      },
+      "references": [
+        {
+          "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+          "type": "index-pattern",
+          "id": "cc462f80-1019-11ea-938f-959bf5749c2f"
+        }
+      ],
+      "migrationVersion": {
+        "visualization": "7.3.0"
+      }
+    },
+    {
+      "id": "f258aac0-101b-11ea-938f-959bf5749c2f",
+      "type": "visualization",
+      "updated_at": "2019-11-26T07:14:34.841Z",
+      "version": "Wzc0LDJd",
+      "attributes": {
+        "title": "EM Avg Total",
+        "visState": "{\"title\":\"EM Avg Total\",\"type\":\"metric\",\"params\":{\"metric\":{\"percentageMode\":false,\"useRanges\":false,\"colorSchema\":\"Green to Red\",\"metricColorMode\":\"None\",\"colorsRange\":[{\"type\":\"range\",\"from\":0,\"to\":10000}],\"labels\":{\"show\":true},\"invertColors\":false,\"style\":{\"bgFill\":\"#000\",\"bgColor\":false,\"labelColor\":false,\"subText\":\"\",\"fontSize\":60}},\"dimensions\":{\"metrics\":[{\"type\":\"vis_dimension\",\"accessor\":0,\"format\":{\"id\":\"number\",\"params\":{}}}]},\"addTooltip\":true,\"addLegend\":false,\"type\":\"metric\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"total\"}}]}",
+        "uiStateJSON": "{}",
+        "description": "",
+        "version": 1,
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"lucene\"},\"filter\":[],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+        }
+      },
+      "references": [
+        {
+          "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+          "type": "index-pattern",
+          "id": "cc462f80-1019-11ea-938f-959bf5749c2f"
+        }
+      ],
+      "migrationVersion": {
+        "visualization": "7.3.0"
+      }
+    },
+    {
+      "id": "229d0a60-101b-11ea-938f-959bf5749c2f",
+      "type": "search",
+      "updated_at": "2019-11-26T07:07:59.108Z",
+      "version": "WzcwLDJd",
+      "attributes": {
+        "title": "Emotion",
+        "description": "",
+        "hits": 0,
+        "columns": [
+          "both",
+          "strong",
+          "strongest",
+          "weak",
+          "weakest",
+          "total",
+          "error",
+          "symbolname"
+        ],
+        "sort": [
+          "timestamp",
+          "desc"
+        ],
+        "version": 1,
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"highlightAll\":true,\"version\":true,\"query\":{\"language\":\"lucene\",\"query\":\"\"},\"filter\":[],\"indexRefName\":\"kibanaSavedObjectMeta.searchSourceJSON.index\"}"
+        }
+      },
+      "references": [
+        {
+          "name": "kibanaSavedObjectMeta.searchSourceJSON.index",
+          "type": "index-pattern",
+          "id": "cc462f80-1019-11ea-938f-959bf5749c2f"
+        }
+      ],
+      "migrationVersion": {
+        "search": "7.0.0"
+      }
+    },
+    {
+      "id": "f8535140-101c-11ea-938f-959bf5749c2f",
+      "type": "visualization",
+      "updated_at": "2019-11-26T07:18:39.955Z",
+      "version": "Wzc1LDJd",
+      "attributes": {
+        "title": "EM 時系列",
+        "visState": "{\"title\":\"EM 時系列\",\"type\":\"metrics\",\"params\":{\"id\":\"61ca57f0-469d-11e7-af02-69e470af7417\",\"type\":\"timeseries\",\"series\":[{\"id\":\"61ca57f1-469d-11e7-af02-69e470af7417\",\"color\":\"#68BC00\",\"split_mode\":\"everything\",\"metrics\":[{\"id\":\"61ca57f2-469d-11e7-af02-69e470af7417\",\"type\":\"count\"}],\"separate_axis\":0,\"axis_position\":\"right\",\"formatter\":\"number\",\"chart_type\":\"line\",\"line_width\":1,\"point_size\":1,\"fill\":0.5,\"stacked\":\"none\",\"terms_field\":\"symbolname.keyword\"}],\"time_field\":\"timestamp\",\"index_pattern\":\"emotion*\",\"interval\":\"\",\"axis_position\":\"left\",\"axis_formatter\":\"number\",\"axis_scale\":\"normal\",\"show_legend\":1,\"show_grid\":1,\"default_index_pattern\":\"backtest*\",\"default_timefield\":\"@timestamp\",\"background_color\":\"rgba(0,0,0,1)\",\"annotations\":[{\"fields\":\"body\",\"template\":\"{{body}}\",\"index_pattern\":\"comment*\",\"query_string\":{\"query\":\"\",\"language\":\"kuery\"},\"id\":\"a384cea0-101c-11ea-9b5a-97f3b6b8b19f\",\"color\":\"#F00\",\"time_field\":\"date\",\"icon\":\"fa-comment\",\"ignore_global_filters\":0,\"ignore_panel_filters\":0}],\"drop_last_bucket\":0},\"aggs\":[]}",
+        "uiStateJSON": "{}",
+        "description": "",
+        "version": 1,
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"lucene\"},\"filter\":[]}"
+        }
+      },
+      "references": [],
+      "migrationVersion": {
+        "visualization": "7.3.0"
+      }
+    },
+    {
+      "id": "cc462f80-1019-11ea-938f-959bf5749c2f",
+      "type": "index-pattern",
+      "updated_at": "2019-11-26T07:07:53.994Z",
+      "version": "WzY5LDJd",
+      "attributes": {
+        "title": "emotion*",
+        "timeFieldName": "timestamp",
+        "fields": "[{\"name\":\"_id\",\"type\":\"string\",\"esTypes\":[\"_id\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":false},{\"name\":\"_index\",\"type\":\"string\",\"esTypes\":[\"_index\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":false},{\"name\":\"_score\",\"type\":\"number\",\"count\":0,\"scripted\":false,\"searchable\":false,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"_source\",\"type\":\"_source\",\"esTypes\":[\"_source\"],\"count\":0,\"scripted\":false,\"searchable\":false,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"_type\",\"type\":\"string\",\"esTypes\":[\"_type\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":false},{\"name\":\"both\",\"type\":\"number\",\"esTypes\":[\"long\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"error\",\"type\":\"number\",\"esTypes\":[\"long\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"key\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"key.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"parent\":\"key\",\"subType\":\"multi\"},{\"name\":\"strong\",\"type\":\"number\",\"esTypes\":[\"long\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"strongest\",\"type\":\"number\",\"esTypes\":[\"long\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"symbolname\",\"type\":\"string\",\"esTypes\":[\"text\"],\"count\":1,\"scripted\":false,\"searchable\":true,\"aggregatable\":false,\"readFromDocValues\":false},{\"name\":\"symbolname.keyword\",\"type\":\"string\",\"esTypes\":[\"keyword\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true,\"parent\":\"symbolname\",\"subType\":\"multi\"},{\"name\":\"timestamp\",\"type\":\"date\",\"esTypes\":[\"date\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"total\",\"type\":\"number\",\"esTypes\":[\"long\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"weak\",\"type\":\"number\",\"esTypes\":[\"long\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true},{\"name\":\"weakest\",\"type\":\"number\",\"esTypes\":[\"long\"],\"count\":0,\"scripted\":false,\"searchable\":true,\"aggregatable\":true,\"readFromDocValues\":true}]"
+      },
+      "references": [],
+      "migrationVersion": {
+        "index-pattern": "6.5.0"
+      }
+    }
+  ]
+}

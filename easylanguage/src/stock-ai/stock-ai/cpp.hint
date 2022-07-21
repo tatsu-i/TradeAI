@@ -1,0 +1,2 @@
+#define STOCKAI_API __declspec(dllexport)
+#define STOCKAI_API __declspec(dllimport)

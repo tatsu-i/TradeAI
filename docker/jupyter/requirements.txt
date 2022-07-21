@@ -1,0 +1,15 @@
+tensorflow==2.8.0
+keras==2.8.0
+pandas==1.4.2
+numpy==1.21.6
+plotly==5.7.0
+librosa==0.9.1
+lrcurve
+sklearn
+wavio
+tqdm
+deap
+update_checker
+stopit
+xgboost
+tpot
